@@ -1,205 +1,205 @@
 #include "DigitOperator.h"
 
-string DigitOperator::Add(string num1, string num2)
+string DigitOperator::Add(string str_num1, string str_num2)
 {
-    bool b_num1Signed = IsSigned(num1);
-    bool b_num2Signed = IsSigned(num2);
+    bool b_num1Signed = IsSigned(str_num1);
+    bool b_num2Signed = IsSigned(str_num2);
 
     /*erase sign and will be attached after this algorithm if it has sign*/
-    SetSign(num1, false);
-    SetSign(num2, false);
+    SetSign(str_num1, false);
+    SetSign(str_num2, false);
 
     /*Erase unnecessary 0*/
-    Trim(num1);
-    Trim(num2);
+    Trim(str_num1);
+    Trim(str_num2);
 
     /*Algorithm works based on the condition that num1 is bigger than num2*/
-    string* biggerOne = Compare(num1, num2) > 0 ? &num1 : &num2;
+    string* str_biggerOne = Compare(str_num1, str_num2) > 0 ? &str_num1 : &str_num2;
 
-    string result;
+    string str_result;
 
     if (b_num1Signed == b_num2Signed) 
     {
-        result = Sum(num1, num2);
+        str_result = Sum(str_num1, str_num2);
 
-        SetSign(result, b_num1Signed);
+        SetSign(str_result, b_num1Signed);
     }
     else
     {
-        result = Difference(num1, num2);
+        str_result = Difference(str_num1, str_num2);
 
-        if (biggerOne == &num1)
+        if (str_biggerOne == &str_num1)
         {
-            SetSign(result, b_num1Signed);
+            SetSign(str_result, b_num1Signed);
         }
         else
         {
-            SetSign(result, b_num2Signed);
+            SetSign(str_result, b_num2Signed);
         }
     }
 
-    return result;
+    return str_result;
 }
 
-string DigitOperator::Sub(string num1, string num2)
+string DigitOperator::Sub(string str_num1, string str_num2)
 {
-    if (Compare(num1, num2) == 0)
+    if (Compare(str_num1, str_num2) == 0)
     {
         return "0";
     }
 
-    bool b_num1Signed = IsSigned(num1);
-    bool b_num2Signed = IsSigned(num2);
+    bool b_num1Signed = IsSigned(str_num1);
+    bool b_num2Signed = IsSigned(str_num2);
 
     /*erase sign and will be attached after this algorithm if it has sign*/
-    SetSign(num1, false);
-    SetSign(num2, false);
+    SetSign(str_num1, false);
+    SetSign(str_num2, false);
 
     /*Erase unnecessary 0*/
-    Trim(num1);
-    Trim(num2);
+    Trim(str_num1);
+    Trim(str_num2);
 
     /*Algorithm works based on the condition that num1 is bigger than num2*/
-    string* biggerOne = Compare(num1, num2) > 0 ? &num1 : &num2;
+    string* str_biggerOne = Compare(str_num1, str_num2) > 0 ? &str_num1 : &str_num2;
 
-    string result;
+    string str_result;
 
     if (b_num1Signed != b_num2Signed)
     {
-        result = Sum(num1, num2);
+        str_result = Sum(str_num1, str_num2);
 
-        SetSign(result, b_num1Signed);
+        SetSign(str_result, b_num1Signed);
     }
     else 
     {
-        result = Difference(num1, num2);
-        Trim(result);
+        str_result = Difference(str_num1, str_num2);
+        Trim(str_result);
 
-        if (biggerOne == &num1)
+        if (str_biggerOne == &str_num1)
         {
             
-            SetSign(result, b_num1Signed);
+            SetSign(str_result, b_num1Signed);
         }
         else
         {
-            SetSign(result, !b_num2Signed);
+            SetSign(str_result, !b_num2Signed);
         }
     }
 
-    return result;
+    return str_result;
 }
 
-string DigitOperator::Mul(string num1, string num2)
+string DigitOperator::Mul(string str_num1, string str_num2)
 {
-    bool b_num1Signed = IsSigned(num1);
-    bool b_num2Signed = IsSigned(num2);
+    bool b_num1Signed = IsSigned(str_num1);
+    bool b_num2Signed = IsSigned(str_num2);
 
     /*erase sign and will be attached after this algorithm if it has sign*/
-    SetSign(num1, false);
-    SetSign(num2, false);
+    SetSign(str_num1, false);
+    SetSign(str_num2, false);
 
-    Trim(num1);
-    Trim(num2);
+    Trim(str_num1);
+    Trim(str_num2);
 
-    string result;
+    string str_result;
 
-    result = Multiply(num1, num2);
-    Trim(result);
+    str_result = Multiply(str_num1, str_num2);
+    Trim(str_result);
 
-    SetSign(result, !(b_num1Signed == b_num2Signed));
+    SetSign(str_result, !(b_num1Signed == b_num2Signed));
 
-    return result;
+    return str_result;
 }
 
-string DigitOperator::Div(string num1, string num2)
+string DigitOperator::Div(string str_num1, string str_num2)
 {
-    bool b_num1Signed = IsSigned(num1);
-    bool b_num2Signed = IsSigned(num2);
+    bool b_num1Signed = IsSigned(str_num1);
+    bool b_num2Signed = IsSigned(str_num2);
 
     /*erase sign and will be attached after this algorithm if it has sign*/
-    SetSign(num1, false);
-    SetSign(num2, false);
+    SetSign(str_num1, false);
+    SetSign(str_num2, false);
 
-    if (num2.compare("0") == 0) 
+    if (str_num2.compare("0") == 0)
     {
         return "0";
     }
 
-    if (Compare(num1, num2) < 0) 
+    if (Compare(str_num1, str_num2) < 0)
     {
         return "0";
     }
 
-    Trim(num1);
-    Trim(num2);
+    Trim(str_num1);
+    Trim(str_num2);
 
-    string result;
+    string str_result;
 
-    result = Divide(num1, num2);
-    Trim(result);
+    str_result = Divide(str_num1, str_num2);
+    Trim(str_result);
 
-    SetSign(result, !(b_num1Signed == b_num2Signed));
+    SetSign(str_result, !(b_num1Signed == b_num2Signed));
 
-    return result;
+    return str_result;
 }
 
-string DigitOperator::GetTwoComplement(string binary)
+string DigitOperator::GetTwoComplement(string str_binary)
 {
-    string result;
+    string str_result;
 
-    for (size_t i = 0; i < binary.length(); i++)
+    for (size_t i = 0; i < str_binary.length(); i++)
     {
-        if (binary.at(i) & ~0b0110000)
+        if (str_binary.at(i) & ~0b0110000)
         {
-            result += "0";
+            str_result += "0";
         }
         else
         {
-            result += "1";
+            str_result += "1";
         }
     }
 
-    for (size_t i = result.length() - 1; i > 0; i--)
+    for (size_t i = str_result.length() - 1; i > 0; i--)
     {
-        if ((result.at(i) & ~0b0110000) == 0b1)
+        if ((str_result.at(i) & ~0b0110000) == 0b1)
         {
-            result.at(i) = '0';
+            str_result.at(i) = '0';
             continue;
         }
 
-        result.at(i) = '1';
+        str_result.at(i) = '1';
         break;
     }
 
-    result = SetOverflowOnComplement(result);
+    str_result = SetOverflowOnComplement(str_result);
 
-    return result;
+    return str_result;
 }
 
 /*b_signed - true - negative
 b_signed - false - positive*/
-void DigitOperator::SetSign(string& number, bool b_sign)
+void DigitOperator::SetSign(string& str_number, bool b_sign)
 {
-    bool isSigned = IsSigned(number);
+    bool b_isSigned = IsSigned(str_number);
 
-    if (isSigned == true && b_sign == false) 
+    if (b_isSigned == true && b_sign == false)
     {
-        number.erase(0, 1);
+        str_number.erase(0, 1);
     }
-    else if (isSigned == false && b_sign == true) 
+    else if (b_isSigned == false && b_sign == true)
     {
-        number = '-' + number;
+        str_number = '-' + str_number;
     }
 }
 
-bool DigitOperator::IsSigned(string number)
+bool DigitOperator::IsSigned(string str_number)
 {
-    if (number.length() == 0) 
+    if (str_number.length() == 0)
     {
         return false;
     }
 
-    if (number.at(0) == '-') 
+    if (str_number.at(0) == '-')
     {
         return true;
     }
@@ -210,43 +210,43 @@ bool DigitOperator::IsSigned(string number)
 }
 
 /*simple function for making sum between two numbers that are positive*/
-string DigitOperator::Sum(string num1, string num2)
+string DigitOperator::Sum(string str_num1, string str_num2)
 {
-    string result;
+    string str_result;
 
-    SetNumbersForUseOnOperator(num1, num2);
+    SetNumbersForUseOnOperator(str_num1, str_num2);
 
     int n_overDigit = 0;
 
-    for (size_t i = 0; i < num1.length(); i++)
+    for (size_t i = 0; i < str_num1.length(); i++)
     {
-        int num = (num1.at(i) & ~0b0110000) + (num2.at(i) & ~0b0110000) + n_overDigit;
+        int num = (str_num1.at(i) & ~0b0110000) + (str_num2.at(i) & ~0b0110000) + n_overDigit;
         n_overDigit = (num / 10);
-        result += ((num % 10) | 0b0110000);
+        str_result += ((num % 10) | 0b0110000);
     }
 
     if (n_overDigit)
     {
-        result += "1";
+        str_result += "1";
     }
 
-    reverse(result.begin(), result.end());
+    reverse(str_result.begin(), str_result.end());
 
-    return result;
+    return str_result;
 }
 
 /*yielding numbers that is diffence between two positive numbers*/
-string DigitOperator::Difference(string num1, string num2)
+string DigitOperator::Difference(string str_num1, string str_num2)
 {
-    string result;
+    string str_result;
 
-    SetNumbersForUseOnOperator(num1, num2);
+    SetNumbersForUseOnOperator(str_num1, str_num2);
 
     int n_overDigit = 0;
 
-    for (size_t i = 0; i < num1.length(); i++)
+    for (size_t i = 0; i < str_num1.length(); i++)
     {
-        int num = (num1.at(i) & ~0b0110000) - (num2.at(i) & ~0b0110000) + n_overDigit;
+        int num = (str_num1.at(i) & ~0b0110000) - (str_num2.at(i) & ~0b0110000) + n_overDigit;
 
         /*if num is negative*/
         if (num < 0)
@@ -259,92 +259,92 @@ string DigitOperator::Difference(string num1, string num2)
             n_overDigit = 0;
         }
 
-        result += (num | 0b0110000);
+        str_result += (num | 0b0110000);
     }
 
-    reverse(result.begin(), result.end());
+    reverse(str_result.begin(), str_result.end());
 
-    return result;
+    return str_result;
 }
 
 /*this multiply function works based on add funtion.
 numerous results from add function makes results of multiply */
-string DigitOperator::Multiply(string num1, string num2)
+string DigitOperator::Multiply(string str_num1, string str_num2)
 {
-    string result;
+    string str_result;
 
-    SetNumbersForUseOnOperator(num1, num2);
+    SetNumbersForUseOnOperator(str_num1, str_num2);
 
-    string mulSum = "";
+    string str_mulSum = "";
     int n_overDigit = 0;
 
     /*way of operating here is multiplying whole digits of the num1 with num2's each element*/
-    for (size_t i = 0; i < num1.length(); i++)
+    for (size_t i = 0; i < str_num1.length(); i++)
     {
-        if ((num1.at(i) & ~0b0110000) == 0)
+        if ((str_num1.at(i) & ~0b0110000) == 0)
         {
             /*if element 0, this element will not be multiplied and skipped,
             but exponent is necessary for this exception and mulSum has to be get *10 */
-            mulSum += "0";
+            str_mulSum += "0";
             continue;
         }
 
-        for (size_t j = 0; j < num2.length(); j++)
+        for (size_t j = 0; j < str_num2.length(); j++)
         {
             /*if element 0, this element will not be multiplied and skipped*/
-            if ((num2.at(j) & ~0b0110000) == 0)
+            if ((str_num2.at(j) & ~0b0110000) == 0)
             {
                 continue;
             }
 
-            int num = (num1.at(i) & ~0b0110000) * (num2.at(j) & ~0b0110000) + n_overDigit;
-            n_overDigit = (num / 10);
-            mulSum += ((num % 10) | 0b0110000);
+            int n_num = (str_num1.at(i) & ~0b0110000) * (str_num2.at(j) & ~0b0110000) + n_overDigit;
+            n_overDigit = (n_num / 10);
+            str_mulSum += ((n_num % 10) | 0b0110000);
         }
 
-        mulSum += (n_overDigit | 0b0110000);
-        reverse(mulSum.begin(), mulSum.end());
+        str_mulSum += (n_overDigit | 0b0110000);
+        reverse(str_mulSum.begin(), str_mulSum.end());
 
-        result = Add(result, mulSum);
+        str_result = Add(str_result, str_mulSum);
 
-        mulSum = "";
+        str_mulSum = "";
         n_overDigit = 0;
 
         for (size_t k = 0; k <= i; k++)
         {
             /*This part is for applying exponent to result*/
-            mulSum += "0";
+            str_mulSum += "0";
         }
     }
 
-    return result;
+    return str_result;
 }
 
 /*Divide funtion works based on subtract operation.
 numerous subtraction action makes divide's results*/
-string DigitOperator::Divide(string num1, string num2)
+string DigitOperator::Divide(string str_num1, string str_num2)
 {
-    string result;
+    string str_result;
 
-    int n_num1_exponent = num1.length();
-    int n_num2_exponent = num2.length();
+    int n_num1_exponent = str_num1.length();
+    int n_num2_exponent = str_num2.length();
 
     int n_difference_exponent = n_num1_exponent - n_num2_exponent;
     
-    string numerator = num1;
-    string dominator;
+    string str_numerator = str_num1;
+    string str_dominator;
 
     for (int i = 0; i < n_num1_exponent; i++)
     {
-        dominator = num2;
+        str_dominator = str_num2;
 
-        if (Compare(numerator, dominator) < 0)
+        if (Compare(str_numerator, str_dominator) < 0)
         {
             /*end of calculation, when left number is smaller than dominator, 
             but exponent shold be applied after it*/
             for (int j = 0; j <= n_difference_exponent - i; j++)
             {
-                result += "0";
+                str_result += "0";
             }
 
             break;
@@ -353,60 +353,60 @@ string DigitOperator::Divide(string num1, string num2)
         for (int j = 0; j < n_difference_exponent - i; j++)
         {
             /*dominator exponent.. this function tries to do the superior digit part first*/
-            dominator += "0";
+            str_dominator += "0";
         }
 
         for (int k = 0; k < 10; k++) 
         {
-            string temp = numerator;
-            numerator = Sub(numerator, dominator);/*subtract part*/
+            string str_temp = str_numerator;
+            str_numerator = Sub(str_numerator, str_dominator);/*subtract part*/
 
-            if (IsSigned(numerator))
+            if (IsSigned(str_numerator))
             {
                 /*if numberator(lefted number) is negative, calculation moves to the next digit part*/
-                numerator = temp;
-                result += to_string(k);
+                str_numerator = str_temp;
+                str_result += to_string(k);
                 break;
             }
         }  
     }
 
-    return result;
+    return str_result;
 }
 
 /*erase unnecessary 0parts*/
-void DigitOperator::Trim(string& number)
+void DigitOperator::Trim(string& str_number)
 {
-    if ((number.length() > 1) && number.at(0) == '0')
+    if ((str_number.length() > 1) && str_number.at(0) == '0')
     {
         int n_countZero = 0;
         
-        while (number[++n_countZero] == '0')
+        while (str_number[++n_countZero] == '0')
         {
         }
 
-        number.erase(0, n_countZero);
+        str_number.erase(0, n_countZero);
     }
 }
 
-int DigitOperator::Compare(string num1, string num2)
+int DigitOperator::Compare(string str_num1, string str_num2)
 {
-    if (num1.length() > num2.length()) 
+    if (str_num1.length() > str_num2.length())
     {
         return 1;
     }
-    else if (num1.length() < num2.length())
+    else if (str_num1.length() < str_num2.length())
     {
         return -1;
     }
 
-    for (size_t i = 0; i < num1.length(); i++) 
+    for (size_t i = 0; i < str_num1.length(); i++)
     {
-        if (num1.at(i) > num2.at(i))
+        if (str_num1.at(i) > str_num2.at(i))
         {
             return 1;
         }
-        else if (num1.at(i) < num2.at(i)) 
+        else if (str_num1.at(i) < str_num2.at(i))
         {
             return -1;
         }
@@ -416,47 +416,47 @@ int DigitOperator::Compare(string num1, string num2)
 }
 
 /*The function has meaning of the function for structure*/
-void DigitOperator::SetNumbersForUseOnOperator(string& num1, string& num2)
+void DigitOperator::SetNumbersForUseOnOperator(string& str_num1, string& str_num2)
 {
     /*Bigger number need to be num1 for simplifying algorithm*/
-    if (Compare(num1, num2) < 0) 
+    if (Compare(str_num1, str_num2) < 0)
     {
-        string temp = num1;
-        num1 = num2;
-        num2 = temp;
+        string str_temp = str_num1;
+        str_num1 = str_num2;
+        str_num2 = str_temp;
     }
 
     /*This algorithm calculation starts at array's 0 index element 
     and 0 index element means one digit and 1 index means tenth digit*/
-    reverse(num1.begin(), num1.end());
-    reverse(num2.begin(), num2.end());
+    reverse(str_num1.begin(), str_num1.end());
+    reverse(str_num2.begin(), str_num2.end());
 
-    size_t number_length = num1.length() > num2.length() ? num1.length() : num2.length();
+    size_t n_number_length = str_num1.length() > str_num2.length() ? str_num1.length() : str_num2.length();
 
     /*Sum and Difference fuction need comparing numbers whole elements,
     so lower number's string will be filling with 0
     ex. 1241-> 124100000 vs 000000001*/
-    for (size_t i = num1.length(); i < number_length; i++)
+    for (size_t i = str_num1.length(); i < n_number_length; i++)
     {
-        num1 += "0";
+        str_num1 += "0";
     }
 
-    for (size_t i = num2.length(); i < number_length; i++)
+    for (size_t i = str_num2.length(); i < n_number_length; i++)
     {
-        num2 += "0";
+        str_num2 += "0";
     }
 }
 
-string DigitOperator::SetOverflowOnComplement(string number)
+string DigitOperator::SetOverflowOnComplement(string str_number)
 {
-    for (size_t i = 0; i < number.length(); i++)
+    for (size_t i = 0; i < str_number.length(); i++)
     {
-        if (number.at(i) == '1')
+        if (str_number.at(i) == '1')
         {
-            return number;
+            return str_number;
         }
     }
 
-    number.at(0) = '1';
-    return number;
+    str_number.at(0) = '1';
+    return str_number;
 }

@@ -1,16 +1,16 @@
 #include "Calculator.h"
 
-string Calculator::expr = "";
+string Calculator::m_str_expr = "";
 int Calculator::n_token_count = 0;
 
 
 
-Calculator::Calculator(string expr)
+Calculator::Calculator(string expression)
 {
-	this->expr = expr;
-	this->expr.erase(remove_if(this->expr.begin(), this->expr.end(), [](const char ch) {
+	this->m_str_expr = expression;
+	this->m_str_expr.erase(remove_if(this->m_str_expr.begin(), this->m_str_expr.end(), [](const char ch) {
 		return ch == '(' || ch == ')' || ch == ' ';
-	}), this->expr.end());
+	}), this->m_str_expr.end());
 
 	CheckNegativeUnary();
 
@@ -19,13 +19,13 @@ Calculator::Calculator(string expr)
 
 Calculator::~Calculator()
 {
-	delete ps;
+	delete m_ps;
 
 	for (int i = 0; i < 300; i++) 
 	{
-		if (tokens[i])
+		if (m_tokens[i])
 		{
-			delete tokens[i];
+			delete m_tokens[i];
 		}
 	}
 }
@@ -65,15 +65,15 @@ string Calculator::Calculate()
 
 int Calculator::MakeOperator(size_t i)
 {
-	tokens[n_token_count] = new Operator(expr.at(i));
+	m_tokens[n_token_count] = new Operator(m_str_expr.at(i));
 
 	/*unary negative check
 	operators like *-, /-, +-, --, can be managed here..
 	but recommanding using parenthesis with unary operator*/
-	if (expr[i + 1] == '-') 
+	if (m_str_expr[i + 1] == '-')
 	{
-		expr.erase(i + 1, 1);
-		static_cast<Operator*>(tokens[n_token_count])->m_bRightValueNegative = true;
+		m_str_expr.erase(i + 1, 1);
+		static_cast<Operator*>(m_tokens[n_token_count])->m_bRightValueNegative = true;
 	}
 
 	n_token_count++;
@@ -86,11 +86,11 @@ int Calculator::MakeOperand(size_t i)
 	size_t startIdx, endIdx;  
 	startIdx = i;
 
-	while (IsDigit(expr.at(i)) || IsBinarySystem(expr.at(i)) || IsHexaSystem(expr.at(i)))
+	while (IsDigit(m_str_expr.at(i)) || IsBinarySystem(m_str_expr.at(i)) || IsHexaSystem(m_str_expr.at(i)))
 	{
 		i++;
 
-		if (expr.length() <= i) 
+		if (m_str_expr.length() <= i)
 		{
 			break;
 		}
@@ -98,9 +98,9 @@ int Calculator::MakeOperand(size_t i)
 
 	endIdx = i;
 
-	string str = expr.substr(startIdx, (endIdx - startIdx));
+	string str = m_str_expr.substr(startIdx, (endIdx - startIdx));
 
-	tokens[n_token_count++] = new Operand(str);
+	m_tokens[n_token_count++] = new Operand(str);
 
 	return endIdx;
 }
@@ -108,15 +108,16 @@ int Calculator::MakeOperand(size_t i)
 int Calculator::Lexical()
 {
 	size_t i = 0;
-	while (expr.at(i))
+	while (m_str_expr.at(i))
 	{
-		if (IsOperator(expr.at(i)))
+		if (IsOperator(m_str_expr.at(i)))
 		{
 			i = MakeOperator(i);
 		}
+
 		else
 		{
-			if (IsDigit(expr.at(i)) || IsBinarySystem(expr.at(i)) || IsHexaSystem(expr.at(i)))
+			if (IsDigit(m_str_expr.at(i)) || IsBinarySystem(m_str_expr.at(i)) || IsHexaSystem(m_str_expr.at(i)))
 			{
 				i = MakeOperand(i);
 			}
@@ -126,7 +127,7 @@ int Calculator::Lexical()
 			}
 		}
 
-		if (expr.length() <= i) 
+		if (m_str_expr.length() <= i)
 		{
 			break;
 		}
@@ -141,49 +142,52 @@ bool Calculator::Syntax()
 	{
 		return false;
 	}
-	if (tokens[0]->priority != 3)
+
+	if (m_tokens[0]->m_nPriority != 3)
 	{
 		return false;
 	}
+
 	for (int i = 1; i < n_token_count; i += 2)
 	{
-		if (tokens[i]->priority == 3)
+		if (m_tokens[i]->m_nPriority == 3)
 		{
 			return false;
 		}
-		if (tokens[i + 1]->priority != 3)
+		if (m_tokens[i + 1]->m_nPriority != 3)
 		{
 			return false;
 		}
 	}
+
 	return true;
 }
 
 void Calculator::Parsing()
 {
-	ps = new ParserTree(tokens[0]);
+	m_ps = new ParserTree(m_tokens[0]);
 
-	for (int i = 1; i < n_token_count; i++) 
+	for (int i = 1; i < n_token_count; i++)
 	{
-		ps->Add(tokens[i]);
+		m_ps->Add(m_tokens[i]);
 	}
 }
 
 void Calculator::PostOrderView()
 {
-	ps->View();
+	m_ps->View();
 }
 
 string Calculator::Processing()
 {
-	return ps->Calculate();
+	return m_ps->Calculate();
 }
 
 void Calculator::CheckNegativeUnary()
 { 
-	if (expr.at(0) == '-' && isdigit(expr.at(1)))
+	if (m_str_expr.at(0) == '-' && isdigit(m_str_expr.at(1)))
 	{
-		expr = "0" + expr;
+		m_str_expr = "0" + m_str_expr;
 	}
 }
 

@@ -4,52 +4,52 @@ BitCalculatorMachine::BitCalculatorMachine()
 {
 }
 
-string BitCalculatorMachine::Calculation(string expr)
+string BitCalculatorMachine::Calculation(string strExpression)
 {
-    if (expr.length() == 0) 
+    if (strExpression.length() == 0)
     {
         return "0";
     }
 
-    if (expr.find('.') != string::npos) 
+    if (strExpression.find('.') != string::npos)
     {
         return "0";
     }
 
-    expr = '(' + expr + ')';
+    strExpression = '(' + strExpression + ')';
 
-    ParenthesisMgr mgr;
-    parenthesis_t* infoArray[ParenthesisMgr::MAX_PAREN] = {};
-    memset(infoArray, 0, sizeof(parenthesis_t*) * ParenthesisMgr::MAX_PAREN);
+    ParenthesisMgr parenthesisMgr;
+    parenthesis_t* parenthesisInfoArray[ParenthesisMgr::MAX_PAREN] = {};
+    memset(parenthesisInfoArray, 0, sizeof(parenthesis_t*) * ParenthesisMgr::MAX_PAREN);
 
     /*checking parenthesis position*/
-    mgr.Get_matching_parentheses(infoArray, expr);
+    parenthesisMgr.Get_matching_parentheses(parenthesisInfoArray, strExpression);
 
     for (int i = 0; i < ParenthesisMgr::MAX_PAREN; i++)
     {
-        if (!infoArray[i])
+        if (!parenthesisInfoArray[i])
         {
             break;
         }
 
-        size_t start = infoArray[i]->opening_index;
-        size_t sub_expr_len = infoArray[i]->closing_index - start + 1;
+        size_t start = parenthesisInfoArray[i]->opening_index;
+        size_t sub_expr_len = parenthesisInfoArray[i]->closing_index - start + 1;
 
-        string sub_expr = expr.substr(start, sub_expr_len);
+        string strSub_expr = strExpression.substr(start, sub_expr_len);
 
-        Calculator* cal = new Calculator(sub_expr);
-        sub_expr = cal->Calculate();
+        Calculator* cal = new Calculator(strSub_expr);
+        strSub_expr = cal->Calculate();
         delete cal;
 
         for (size_t j = 0; j < sub_expr_len; j++)
         {
-            if (sub_expr.length() > j)
+            if (strSub_expr.length() > j)
             {
-                expr[start++] = sub_expr[j];
+                strExpression[start++] = strSub_expr[j];
             }
             else
             {
-                expr[start++] = ' ';
+                strExpression[start++] = ' ';
             }
         }
     }
@@ -57,24 +57,24 @@ string BitCalculatorMachine::Calculation(string expr)
     /*free memory of parenthesis*/
     for (int i = 0; i < ParenthesisMgr::MAX_PAREN; i++)
     {
-        if (infoArray[i])
+        if (parenthesisInfoArray[i])
         {
-            delete infoArray[i];
+            delete parenthesisInfoArray[i];
         }
     }
 
     /*erase unnecessary letters of answer*/
-    expr.erase(remove_if(expr.begin(), expr.end(), [](const char ch) {
+    strExpression.erase(remove_if(strExpression.begin(), strExpression.end(), [](const char ch) {
         return ch == '(' || ch == ')' || ch == ' ';
-    }), expr.end());
+    }), strExpression.end());
 
     /*Erase unnecessary 0 letters,
     for example, if answer is 0011000, this makes it 11000*/
-    for (size_t i = 0; i < expr.length(); i++)
+    for (size_t i = 0; i < strExpression.length(); i++)
     {
-        if (expr.at(i) == '0' && expr.length() != 1)
+        if (strExpression.at(i) == '0' && strExpression.length() != 1)
         {
-            expr.erase(0, 1);
+            strExpression.erase(0, 1);
         }
         else
         {
@@ -82,5 +82,5 @@ string BitCalculatorMachine::Calculation(string expr)
         }
     }
 
-    return expr;
+    return strExpression;
 }

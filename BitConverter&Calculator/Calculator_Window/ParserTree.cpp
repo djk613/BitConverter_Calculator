@@ -26,7 +26,7 @@ void ParserTree::Add(Token* token)
     else
     {
         /*if it is operator*/
-        if (token->priority != 3)
+        if (token->m_nPriority != 3)
         {
             now->left = root->right;
             root->right = now;
@@ -68,16 +68,16 @@ string ParserTree::PostOrderCalculate(Node_t* sr)
 {
     if (sr->left)
     {
-        string lvalue = PostOrderCalculate(sr->left);
-        string rvalue = PostOrderCalculate(sr->right);
+        string str_lvalue = PostOrderCalculate(sr->left);
+        string str_rvalue = PostOrderCalculate(sr->right);
         Operator* op = dynamic_cast<Operator*>(sr->token);
 
         if (op->m_bRightValueNegative)
         {
-            rvalue = '-' + rvalue;
+            str_rvalue = '-' + str_rvalue;
         }
 
-        return op->operator_action(lvalue, rvalue);
+        return op->operator_action(str_lvalue, str_rvalue);
     }
 
     Operand* op = dynamic_cast<Operand*>(sr->token);

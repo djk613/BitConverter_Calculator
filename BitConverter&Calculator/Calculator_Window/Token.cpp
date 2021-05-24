@@ -2,5 +2,5 @@
 
 bool Token::MoreThanPriority(Token* token)
 {
-    return priority >= token->priority;
+    return m_nPriority >= token->m_nPriority;
 }

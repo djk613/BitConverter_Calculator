@@ -2,7 +2,7 @@
 
 Decimal::Decimal()
 {
-	digitNumber = "0";
+	m_str_digitNumber = "0";
 }
 
 Decimal::Decimal(string str_num)
@@ -12,63 +12,62 @@ Decimal::Decimal(string str_num)
 
 string Decimal::ConvertToBinary()
 {
-	bool b_negative = digitNumber.at(0) == '-';
+	bool b_negative = m_str_digitNumber.at(0) == '-';
 
-	string result;
-	string number = digitNumber;
+	string str_result;
+	string str_number = m_str_digitNumber;
 
-	if (number == "0")
+	if (str_number == "0")
 	{
 		return "0";
 	}
 
 	if (b_negative)
 	{
-		number.erase(0, 1);
+		str_number.erase(0, 1);
 	}
 
 	while (true)
 	{
-		int n_oneDigit = (number.at(number.length() - 1) & ~0b0110000);
-		int nu = number.length() - 1;
+		int n_oneDigit = (str_number.at(str_number.length() - 1) & ~0b0110000);
 		if (n_oneDigit % 2) 
 		{
-			result = "1" + result;
+			str_result = "1" + str_result;
 		}
 		else
 		{
-			result = "0" + result;
+			str_result = "0" + str_result;
 		}
 
-		if (number == "1")
+		if (str_number == "1")
 		{
 			break;
 		}
 
-		number = DigitOperator::Div(number, "2");
+		str_number = DigitOperator::Div(str_number, "2");
 	}
 
 	if (b_negative)
 	{
-		result = DigitOperator::GetTwoComplement(result);
-		result = "1" + result;
+		str_result = DigitOperator::GetTwoComplement(str_result);
+		str_result = "1" + str_result;
 	}
 	else
 	{
-		result = "0" + result;
+		str_result = "0" + str_result;
 	}
 
-	return result;
+	return str_result;
 }
 
 string Decimal::ConvertToDecimal()
 {
-	if (digitNumber[0] == '-')
+	if (m_str_digitNumber[0] == '-')
 	{
-		digitNumber = "(" + digitNumber + ")";
+		m_str_digitNumber = "(" + m_str_digitNumber + ")";
 	}
 
-	return digitNumber;
+	return m_str_digitNumber;
 }
 
 string Decimal::ConvertToHexaDecimal()
@@ -80,17 +79,17 @@ string Decimal::ConvertToHexaDecimal()
 
 void Decimal::SetNumber(string str_num)
 {
-	digitNumber = str_num;
+	m_str_digitNumber = str_num;
 
-	if (digitNumber[0] == '(' && digitNumber[digitNumber.length() - 1] == ')')
+	if (m_str_digitNumber[0] == '(' && m_str_digitNumber[m_str_digitNumber.length() - 1] == ')')
 	{
-		digitNumber.erase(digitNumber.length() - 1, 1);
-		digitNumber.erase(0, 1);
+		m_str_digitNumber.erase(m_str_digitNumber.length() - 1, 1);
+		m_str_digitNumber.erase(0, 1);
 	}
 
 	int loopIdx = 0u;
-	int number_len = digitNumber.length();
-	if (digitNumber.at(0) == '-')
+	int number_len = m_str_digitNumber.length();
+	if (m_str_digitNumber.at(0) == '-')
 	{
 		loopIdx++;
 		number_len--;
@@ -98,11 +97,11 @@ void Decimal::SetNumber(string str_num)
 
 	for (; loopIdx < number_len; loopIdx++)
 	{
-		unsigned int num = digitNumber.at(loopIdx) & ~0b0110000;
+		unsigned int num = m_str_digitNumber.at(loopIdx) & ~0b0110000;
 
 		if (num < 0 || num > 9)
 		{
-			digitNumber = "0";
+			m_str_digitNumber = "0";
 		}
 	}
 }

@@ -17,6 +17,5 @@ public:
 
 public:
 	string Calculation(string expression);
-
 };
 

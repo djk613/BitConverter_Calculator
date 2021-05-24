@@ -4,7 +4,7 @@ size_t ParenthesisMgr::Get_matching_parentheses(parenthesis_t** parentheses, str
 {
     char ch;
     size_t paren_index;
-    size_t str_index;
+    size_t string_index;
     size_t result_index;
     stack_t stack;
     parenthesis_t paren;
@@ -15,19 +15,19 @@ size_t ParenthesisMgr::Get_matching_parentheses(parenthesis_t** parentheses, str
     size_t str_len;
 
     paren_index = 0u;
-    str_index = 0u;
+    string_index = 0u;
     result_index = 0u;
     stack_count = 0u;
     str_len = str.length();
 
-    while (str.at(str_index) != '\0')
+    while (str.at(string_index) != '\0')
     {
-        ch = str.at(str_index);
+        ch = str.at(string_index);
 
         if (ch == '(') 
         {
 
-            paren.opening_index = str_index;
+            paren.opening_index = string_index;
             paren.closing_index = 0xffffffff;
             paren.priority = stack_count;
 
@@ -46,15 +46,15 @@ size_t ParenthesisMgr::Get_matching_parentheses(parenthesis_t** parentheses, str
             if (stack.ch == '(' && ch == ')') 
             {
                 Pop(stack_array, &stack_count);
-                stack.paren_info.closing_index = str_index;
+                stack.paren_info.closing_index = string_index;
 
                 parentheses[paren_index++] = new parenthesis_t(stack.paren_info);
             }
         }
 
-        str_index++;
+        string_index++;
 
-        if(str_len <= str_index)
+        if(str_len <= string_index)
         {
             break;
         }

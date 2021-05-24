@@ -235,23 +235,23 @@ int CWndCalculateMgr::SetConvert(HWND parentWnd, WPARAM wParam)
         return 0;
     }
 
-    string workingText = m_szTextBoxWorking;
+    string str_workingText = m_szTextBoxWorking;
 
     IDigitNumber* number;
 
     if (m_szTextBoxWorking[0] == 'b' || m_szTextBoxWorking[1] == 'b')
     {
-        workingText.erase(0, 1);
-        number = new Binary(workingText);
+        str_workingText.erase(0, 1);
+        number = new Binary(str_workingText);
     }
     else if (m_szTextBoxWorking[0] == 'x' || m_szTextBoxWorking[1] == 'x')
     {
-        workingText.erase(0, 1);
-        number = new HexaDecimal(workingText);
+        str_workingText.erase(0, 1);
+        number = new HexaDecimal(str_workingText);
     }
     else
     {
-        number = new Decimal(workingText);
+        number = new Decimal(str_workingText);
     }
 
     switch (wParam)

@@ -8,5 +8,5 @@ public:
     bool MoreThanPriority(Token* token);
 
 public:
-	int priority;
+	int m_nPriority;
 };

@@ -13,5 +13,5 @@ public:
 	string GetNumber();
 
 protected:
-	string digitNumber;
+	string m_str_digitNumber;
 };

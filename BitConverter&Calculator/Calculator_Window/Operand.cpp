@@ -1,25 +1,25 @@
 #include "Operand.h"
 
-Operand::Operand(string number)
+Operand::Operand(string str_number)
 {
-	char sign = number.at(0);
+	char ch_sign = str_number.at(0);
 
-	if (sign == 'b' || sign == 'B')
+	if (ch_sign == 'b' || ch_sign == 'B')
 	{
-		number.erase(0, 1);
-		value = new Binary(number);
+		str_number.erase(0, 1);
+		value = new Binary(str_number);
 	}
-	else if (sign == 'x' || sign == 'X')
+	else if (ch_sign == 'x' || ch_sign == 'X')
 	{
-		number.erase(0, 1);
-		value = new HexaDecimal(number);
+		str_number.erase(0, 1);
+		value = new HexaDecimal(str_number);
 	}
 	else
 	{
-		value = new Decimal(number);
+		value = new Decimal(str_number);
 	}
 
-	priority = 3;
+	m_nPriority = 3;
 }
 
 void Operand::View()

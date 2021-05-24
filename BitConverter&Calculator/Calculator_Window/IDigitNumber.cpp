@@ -2,5 +2,5 @@
 
 string IDigitNumber::GetNumber()
 {
-	return digitNumber;
+	return m_str_digitNumber;
 }

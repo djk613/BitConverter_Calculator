@@ -8,7 +8,7 @@
 class Calculator
 {
 public:
-	Calculator(string expr);
+	Calculator(string expression);
 	~Calculator();
 
 	string Calculate();
@@ -31,11 +31,11 @@ private:
 	bool IsHexaSystem(char ch);
 
 private:
-	static string expr;
+	static string m_str_expr;
 	static int n_token_count;
 
-	Token* tokens[300] = { 0 };
+	Token* m_tokens[300] = { 0 };
 
-	ParserTree* ps;
+	ParserTree* m_ps;
 };
 
